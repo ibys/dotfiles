@@ -94,19 +94,22 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-
+# Alt-a to accept autosuggestion (equals END and Arrow-Right)
+bindkey '^[a' autosuggest-accept
+# Alt-r to execute autosuggestion
+bindkey '^[r' autosuggest-execute
+# zsh options
+setopt +o nomatch # disable zsh error when pattern for filename generation has no matches
+# zsh history options
+HISTSIZE=100000
+setopt EXTENDED_HISTORY
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_REDUCE_BLANKS
+setopt HIST_IGNORE_SPACE
 export MANPATH="${HOME}/share/man:/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-#if [[ -n $SSH_CONNECTION ]]; then
-export EDITOR='vim'
-#else
-#  export EDITOR='mvim'
-#fi
-
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export COLOR_NONE='\e[0m'
 export COLOR_BLACK='\e[0;30m'
 export COLOR_GRAY='\e[1;30m'
@@ -124,6 +127,27 @@ export COLOR_CYAN='\e[0;36m'
 export COLOR_LIGHT_CYAN='\e[1;36m'
 export COLOR_LIGHT_GRAY='\e[0;37m'
 export COLOR_WHITE='\e[1;37m'
+export WIN_IP="$(grep nameserver /etc/resolv.conf | awk '{print $2}')"
+export WSL_IP="$(ip addr show eth0 | grep -w inet | awk '{print $2}' | awk -F'/' '{print $1}')"
+# env
+export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
+export ORACLE_HOME="${HOME}/.local/lib/oracle/19.8/client64"
+export LD_LIBRARY_PATH="${ORACLE_HOME}"
+export PATH=".:${JAVA_HOME}/bin:${ORACLE_HOME}:${ORACLE_HOME}/sdk:${HOME}/bin:${HOME}/.local/bin:${PATH}"
+# tools
+export RIPGREP_CONFIG_PATH="${HOME}/.config/.ripgreprc"
+export BAT_CONFIG_PATH="${HOME}/.config/bat/config"
+[[ -f "${HOME}/.config/fzf/config" ]] && source "${HOME}/.config/fzf/config"
+
+# You may need to manually set your language environment
+export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+#if [[ -n $SSH_CONNECTION ]]; then
+export EDITOR='vim'
+#else
+#  export EDITOR='mvim'
+#fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -146,39 +170,6 @@ else
   ln -sf ~/.p10k.default.zsh ~/.p10k.zsh
 fi
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
-
-# start gpg-agen as daemon for svn storing password
-# [[ `command -v gpg-agent &> /dev/null` -eq 0 ]] && nohup gpg-agent --daemon &> /dev/null
-
-export WIN_IP="$(grep nameserver /etc/resolv.conf | awk '{print $2}')"
-export WSL_IP="$(ip addr show eth0 | grep -w inet | awk '{print $2}' | awk -F'/' '{print $1}')"
-
-export RIPGREP_CONFIG_PATH="${HOME}/.config/.ripgreprc"
-export BAT_CONFIG_PATH="${HOME}/.config/bat/config"
-[[ -f "${HOME}/.config/fzf/config" ]] && source "${HOME}/.config/fzf/config"
-
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
-export ORACLE_HOME="/opt/oracle/instantclient_19_8"
-export LD_LIBRARY_PATH="${ORACLE_HOME}"
-export PATH=".:${JAVA_HOME}/bin:${ORACLE_HOME}:${ORACLE_HOME}/sdk:${HOME}/bin:${HOME}/.local/bin:${PATH}"
-
-# Alt-a to accept autosuggestion (equals END and Arrow-Right)
-bindkey '^[a' autosuggest-accept
-# Alt-r to execute autosuggestion
-bindkey '^[r' autosuggest-execute
-
-# zsh options
-setopt +o nomatch
-
-# zsh history options
-HISTSIZE=100000
-setopt EXTENDED_HISTORY
-setopt INC_APPEND_HISTORY
-setopt SHARE_HISTORY
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_REDUCE_BLANKS
-setopt HIST_IGNORE_SPACE
 
 # pip zsh completion (pip3 completion --zsh >> ~/.zshrc)
 function _pip_completion {
