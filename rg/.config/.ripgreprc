@@ -1,0 +1,7 @@
+--follow
+--smart-case
+--hidden
+--type-add
+c:*.pc
+--iglob
+! .clangd

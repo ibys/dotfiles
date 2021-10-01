@@ -1,0 +1,7 @@
+--theme "gruvbox-dark"
+--map-syntax "pc:c"
+--map-syntax "Makefile.Linux:Makefile"
+--map-syntax "Makefile.HP-UX:Makefile"
+--map-syntax "Make.defines:Makefile"
+--map-syntax "Make.defines.Linux:Makefile"
+--map-syntax "Make.defines.HP-UX:Makefile"

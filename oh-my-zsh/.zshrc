@@ -136,13 +136,16 @@ export COLOR_WHITE='\e[1;37m'
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+[[ -f ~/.myaliases ]] && source ~/.myaliases
+[[ -f ~/.myfuncs ]] && source ~/.myfuncs
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 if [[ ${WSLENV} == "IDEA" ]] && [[ -f ~/.p10k.idea.zsh ]]; then
-  source ~/.p10k.idea.zsh
+  ln -sf ~/.p10k.idea.zsh ~/.p10k.zsh
 else
-  [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+  ln -sf ~/.p10k.default.zsh ~/.p10k.zsh
 fi
+[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 
 # start gpg-agen as daemon for svn storing password
 # [[ `command -v gpg-agent &> /dev/null` -eq 0 ]] && nohup gpg-agent --daemon &> /dev/null
@@ -152,59 +155,7 @@ export WSL_IP="$(ip addr show eth0 | grep -w inet | awk '{print $2}' | awk -F'/'
 
 export RIPGREP_CONFIG_PATH="${HOME}/.config/.ripgreprc"
 export BAT_CONFIG_PATH="${HOME}/.config/bat/config"
-#export BAT_THEME=TwoDark
-export BAT_THEME=gruvbox-dark
-
-export FZF_PREVIEW_LINES=1000
-export FZF_DEFAULT_COMMAND="fdfind --hidden --exclude '.clangd'"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} if [[ -L {} ]] && [[ -d {} ]] then"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} echo -e \"${COLOR_BLUE}[Directory]${COLOR_NONE}\" symlink of \$(readlink -f {});"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} exa --all --long --header --color=always {};"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} elif [[ -d {} ]] then"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} echo -e \"${COLOR_BLUE}[Directory]${COLOR_NONE}\";"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} exa --all --long --header --color=always {};"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} elif [[ \$(echo {} | tail -c 4) = 'zip' ]] then"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} echo -e \"${COLOR_BLUE}[ZIP file]${COLOR_NONE}\";"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} unzip -l {};"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} elif [[ \$(echo {} | tail -c 4) = 'jar' ]] then"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} echo -e \"${COLOR_BLUE}[META-INF/MANIFEST.MF]${COLOR_NONE}\";"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} unzip -q -c {} META-INF/MANIFEST.MF;"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} echo -e \"${COLOR_BLUE}[Contents]${COLOR_NONE}\";"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} jar -tf {};"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} elif [[ \$(echo {} | tail -c 4) = 'tar' ]] then"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} echo -e \"${COLOR_BLUE}[TAR file]${COLOR_NONE}\";"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} tar -tf {};"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} elif [[ \$(echo {} | tail -c 7) = 'tar.gz' ]] then"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} echo -e \"${COLOR_BLUE}[TAR file]${COLOR_NONE}\";"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} tar -tf {};"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} elif [[ \$(echo {} | tail -c 7) = 'tar.xz' ]] then"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} echo -e \"${COLOR_BLUE}[TAR file]${COLOR_NONE}\";"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} tar -tf {};"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} elif [[ \$(echo {} | tail -c 3) = 'gz' ]] then"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} echo -e \"${COLOR_BLUE}[GZIP file]${COLOR_NONE}\";"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} gzip -l {};"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} elif [[ -L {} ]] && [[ -f {} ]] then"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} echo -e \"${COLOR_BLUE}[symlink of \$(readlink -f {})]${COLOR_NONE}\";"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} bat --style=numbers --color=always --tabs 2 --line-range :${FZF_PREVIEW_LINES} {};"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} elif [[ \$(file --brief --mime {} | grep -c binary) -ne 0 ]] then"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} echo -e \"${COLOR_BLUE}[Binary file]${COLOR_NONE}\";"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} file --brief {};"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} elif [[ -f {} ]] then"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} bat --style=numbers --color=always --tabs 2 --line-range :${FZF_PREVIEW_LINES} {};"
-FZF_DEFAULT_PREVIEW="${FZF_DEFAULT_PREVIEW} fi"
-FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS} --border --layout=reverse --multi"
-FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS} --color fg:#ebdbb2,bg:#282828,hl:#fabd2f,fg+:#ebdbb2,bg+:#3c3836,hl+:#fabd2f,gutter:#282828"
-FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS} --color info:#83a598,prompt:#bdae93,spinner:#fabd2f,pointer:#83a598,marker:#fe8019,header:#665c54"
-FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS} --bind 'alt-up:preview-page-up' --bind 'alt-down:preview-page-down'"
-FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS} --bind 'alt-left:preview-top' --bind 'alt-right:preview-bottom'"
-FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS} --bind '?:toggle-preview' --bind 'alt-w:toggle-preview-wrap'"
-FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS} --preview-window=down:50% --preview '${FZF_DEFAULT_PREVIEW}'"
-export FZF_DEFAULT_OPTS
-export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window=down:3:wrap"
-export FZF_CTRL_T_COMMAND="${FZF_DEFAULT_COMMAND}"
-export FZF_CTRL_T_OPTS="--preview-window=right:50%"
-export FZF_ALT_C_COMMAND="fdfind --type d --hidden --exclude '.clangd'"
-export FZF_ALT_C_OPTS="--preview 'echo -e \"${COLOR_BLUE}[Directory]${COLOR_NONE}\" {}; exa --all --long --header --color=always {}' --preview-window=right:60%"
+[[ -f "${HOME}/.config/fzf/config" ]] && source "${HOME}/.config/fzf/config"
 
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
