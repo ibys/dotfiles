@@ -100,6 +100,7 @@ bindkey '^[a' autosuggest-accept
 bindkey '^[r' autosuggest-execute
 # zsh options
 setopt +o nomatch # disable zsh error when pattern for filename generation has no matches
+setopt glob_dots
 # zsh history options
 HISTSIZE=100000
 setopt EXTENDED_HISTORY
@@ -186,15 +187,11 @@ compctl -K _pip_completion pip3
 # UPDATE: seems like omz fixed this
 # export LS_COLORS='ow=;34;'
 
-# plugin fzf-tab settings
-# close fzf-tab preview:
-#   add '--preview-window=hidden \' in $ZSH_CUSTOM/plugins/fzf-tab/lib/-ftb-fzf$fzf_command
 zstyle ':completion:*:descriptions' format '[%d]'
 #zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-colors "ow=;34"
-zstyle ':fzf-tab:complete:cd:*' fzf-flags '--preview-window=hidden'
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa --color=always $realpath'
-#zstyle ':fzf-tab:complete:cd:*' fzf-preview ${FZF_DEFAULT_PREVIEW}
+zstyle ':fzf-tab:complete:*' fzf-flags '--preview-window=right:70%'
+zstyle ':fzf-tab:complete:*' fzf-preview "$(echo $FZF_DEFAULT_PREVIEW | sed 's/{}/$realpath/g')" 
 
 GITSTATUS_LOG_LEVEL=DEBUG
 
