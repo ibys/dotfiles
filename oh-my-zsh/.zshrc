@@ -191,7 +191,7 @@ zstyle ':completion:*:descriptions' format '[%d]'
 #zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-colors "ow=;34"
 zstyle ':fzf-tab:complete:*' fzf-flags '--preview-window=right:70%'
-zstyle ':fzf-tab:complete:*' fzf-preview "$(echo $FZF_DEFAULT_PREVIEW | sed 's/{}/$realpath/g')" 
+zstyle ':fzf-tab:complete:*' fzf-preview "$(echo $FZF_DEFAULT_PREVIEW | sed 's/{}/$realpath/g')"
 
 GITSTATUS_LOG_LEVEL=DEBUG
 
