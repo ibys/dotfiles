@@ -22,9 +22,9 @@ function catf() { tail -f "$1" | bat --paging=never --language=log; }
 
 #alias catf='bat --pager "less +F"'
 alias diffw='diff -w'
-alias fd='fdfind --hidden --exclude ".clangd"'
-alias fdf='fdfind --hidden --exclude ".clangd" --type f'
-alias fdd='fdfind --hidden --exclude ".clangd" --type d'
+alias fd='fd --hidden --exclude ".clangd"'
+alias fdf='fd --hidden --exclude ".clangd" --type f'
+alias fdd='fd --hidden --exclude ".clangd" --type d'
 alias ncdu='ncdu --color dark'
 alias rgc='rg -c'
 alias python='python3'

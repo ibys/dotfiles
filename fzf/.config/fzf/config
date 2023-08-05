@@ -1,7 +1,7 @@
 #!/hint/zsh
 
 export FZF_PREVIEW_LINES=1000
-export FZF_DEFAULT_COMMAND="fdfind --hidden --exclude '.clangd'"
+export FZF_DEFAULT_COMMAND="fd --hidden --exclude '.clangd'"
 FZF_DEFAULT_PREVIEW+=" if [[ -L {} ]] && [[ -d {} ]] then"
 FZF_DEFAULT_PREVIEW+=" echo -e \"${COLOR_BLUE}[Directory]${COLOR_NONE}\" symlink of \$(readlink -f {});"
 FZF_DEFAULT_PREVIEW+=" exa --all --long --header --color=always {};"
@@ -48,5 +48,5 @@ export FZF_DEFAULT_OPTS
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window=down:3:wrap"
 export FZF_CTRL_T_COMMAND="${FZF_DEFAULT_COMMAND}"
 export FZF_CTRL_T_OPTS="--preview-window=right:50%"
-export FZF_ALT_C_COMMAND="fdfind --type d --hidden --exclude '.clangd'"
+export FZF_ALT_C_COMMAND="fd --type d --hidden --exclude '.clangd'"
 export FZF_ALT_C_OPTS="--preview 'echo -e \"${COLOR_BLUE}[Directory]${COLOR_NONE}\" {}; exa --all --long --header --color=always {}' --preview-window=right:60%"
