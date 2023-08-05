@@ -30,14 +30,13 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Case-sensitive completion must be off. _ and - will be interchangeable.
 HYPHEN_INSENSITIVE="true"
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+# zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 
 # Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
+# zstyle ':omz:update' frequency 13
 
 # Uncomment the following line if pasting URLs and other text is messed up.
 # DISABLE_MAGIC_FUNCTIONS="true"
@@ -52,6 +51,9 @@ DISABLE_AUTO_TITLE="true"
 ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
+# You can also set it to another string to have that shown instead of the default red dots.
+# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
 COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
@@ -85,8 +87,6 @@ plugins=(
   fzf-tab
   git
   svn-fast-info
-  wdnote
-  you-should-use
   zsh-autosuggestions
   zsh-syntax-highlighting
 )
@@ -131,7 +131,7 @@ export COLOR_WHITE='\e[1;37m'
 export WIN_IP="$(grep nameserver /etc/resolv.conf | awk '{print $2}')"
 export WSL_IP="$(ip addr show eth0 | grep -w inet | awk '{print $2}' | awk -F'/' '{print $1}')"
 # env
-export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
+export JAVA_HOME=$(dirname $(dirname `readlink -f /etc/alternatives/java`))
 export ORACLE_HOME="${HOME}/.local/lib/oracle/19.8/client64"
 export LD_LIBRARY_PATH="${ORACLE_HOME}"
 export PATH=".:${JAVA_HOME}/bin:${ORACLE_HOME}:${ORACLE_HOME}/sdk:${HOME}/bin:${HOME}/.local/bin:${PATH}"
@@ -144,11 +144,11 @@ export BAT_CONFIG_PATH="${HOME}/.config/bat/config"
 export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-#if [[ -n $SSH_CONNECTION ]]; then
+# if [[ -n $SSH_CONNECTION ]]; then
 export EDITOR='vim'
-#else
-#  export EDITOR='mvim'
-#fi
+# else
+#   export EDITOR='mvim'
+# fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -197,3 +197,7 @@ GITSTATUS_LOG_LEVEL=DEBUG
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source $ZSH_CUSTOM/plugins/fzf-tab/fzf-tab.plugin.zsh
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
